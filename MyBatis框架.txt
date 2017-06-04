@@ -1,0 +1,26 @@
+MyBatis几个关键对象的作用及生命周期
+	1、SqlSessionFactoryBuilder
+		用来创建SqlSessionFactory的，一旦创建完SqlSessionFactory实例之后，这个类就不需要存在了，所以可以把它作为一个局部变量使用。
+		String resource = "org/mybatis/example/mybatis-config.xml";
+		InputStream inputStream = Resources.getResourceAsStream(resource);
+		sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+	2、SqlSessionFactory
+		SqlSessionFactory是单例的，会随着应用的生命周期一同存在，并且同时只存在一个对象实例。
+	3、SqlSession
+		每个线程都有它自己的SqlSession实例，SqlSession实例不能被共享，也不是线程安全的。所以它的生命周期是request或者局部的。绝对不能将 SqlSession 实例的引用放在一个 类的静态字段甚至是实例字段中。 也绝不能将 SqlSession 实例的引用放在任何类型的管理范 围中, 比如 Serlvet 架构中的 HttpSession。关闭 Session 很重要,你应该确保使 用 finally 块来关闭它。下面的示例就是一个确保 SqlSession 关闭的基本模式:
+		SqlSession session = sqlSessionFactory.openSession();
+		try {
+		  // do work
+		   } finally {
+		  session.close();
+		}
+		4、Mapper 实例
+			映射器是你创建绑定映射语句的接口。映射器接口的实例可以从 SqlSession 中获得。那 么从技术上来说,当被请求时,任意映射器实例的最宽范围和 SqlSession 是相同的。然而, 映射器实例的最佳范围是方法范围。也就是说,它们应该在使用它们的方法中被请求,然后 就抛弃掉。它们不需要明确地关闭,那么在请求对象中保留它们也就不是什么问题了,这和 SqlSession 相似。你也许会发现,在这个水平上管理太多的资源的话会失控。保持简单,将 映射器放在方法范围内。
+			String resource = "org/mybati
+			SqlSession session = sqlSessionFactory.openSession();
+			try {
+			  BlogMapper mapper = session.getMapper(BlogMapper.class);
+			  // do work
+			} finally {
+			  session.close();
+			}

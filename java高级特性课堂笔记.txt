@@ -1,0 +1,428 @@
+一、集合框架
+（接口）Collection  
+	常用方法：
+	1、boolean add（Object o）在列表末尾顺序添加元素
+	2、boolean addAll(Collection<? extends Object> c)将某集合中的所有元素添加到该集合中
+	3、boolean contains(Object o)
+	4、boolean remove(Object o)
+	5、int size() 返回collection大小或者长度
+	*6、boolean isEmpty()  如果集合内不包含任何元素则返回true
+	7、Iterator<E> iterator()  迭代方法，返回Iterator对象
+	
+	（子接口）List  存储不唯一、有序的一组元素
+		  常用方法：
+		  1、void add(int index,Object o) 指定下标插入元素
+		  2、Object get(int index) 获取指定下标的元素
+		（实现类）ArrayList（动态数组，对数组进行了封装，实现了长度可变的数组，
+				     采用了和数组相同的存储方式，在内存中分配连续的空间）
+			不显示声明的情况下，ArrayList的大小为10，可以存储null值
+			***遍历元素和随机访问元素的效率较高有利于数据的频繁查找检索
+		（实现类）LinkedList
+			***对数据进行频繁的增、删、改时效率较高
+			特有方法：
+			addFirst  addLast
+			getFirst  getLast
+			removeFirst  removeLast
+			remove()
+	
+	（子接口）Set  存储唯一、无序的一组元素
+		（实现类）HashSet
+		***查找效率要高于ArrayList
+		特点：
+		1、集合内的元素是无序排列的
+		2、HashSet类是非线程安全的
+		3、允许集合元素值为null
+	（接口迭代器）Iterator 为集合而生，用于遍历集合
+		常用方法：
+		1、boolean hasNext()
+		2、Object next()
+		3、void remove()  从迭代器指向的 collection 中移除迭代器返回的最后一个元素（可选操作）。
+		
+
+（接口）Map  存储一组成对的键（key）——值（value）对象，提供key 到value的映射，通过key来检索
+	      key不要求有序，不允许重复
+	      value不要求有序，但可以重复
+	      遍历时无法单独通过增强型for循环或者Iterator迭代器进行遍历
+
+	      常用方法：
+	      Object put(Object key,Object value)
+	      Object remove(Object key)
+	      Object get(Object key)
+	      boolean containKey(Object key)
+	      boolean containValue(Object value)
+	      boolean isEmpty()
+	      void clear()
+	      int size()
+	      *Set keySet() 获取所有key的集合，返回Set对象
+	      *Collection values()  获取所有value的集合，返回Collection对象
+	      
+	      
+	      （实现类）HashMap
+			遍历时可以遍历键集（Set）和值集（Collection）
+		       ***查询指定元素效率高
+
+
+
+二、实用类
+	1、enum 枚举类
+	2、包装类
+	Object--->Boolean
+	      
+	      --->Number--->Byte
+			--->Short
+			--->Integer(int)为例
+			    常用方法：
+			    Integer parseInt(String s)  将字符串s转为Integer，抛出NumberFormatException
+			    toString()  转化为字符串 或者直接拼接双引号
+			--->Long
+			--->Float
+			--->Double
+		
+	      --->Character(char)
+
+	3、java.lang.Math类
+	  random（方法）
+	  (int)(Math.random() * 1000 % 101)  产生一个[0,100]的整数
+	 
+	  产生乱序数字2，3，5，7，15，26
+	  int[] nums = {2,3,5,7,15,26};
+	  int index = (int)(Math.random() * nums.length);
+	  或者  int index = (int)(Math.random() * 100) % nums.length;
+	  int randomNumber = nums[index]; 
+	4、java.util.Random类
+	   int nextInt(int n) 生成一个[0,100)的伪随机整数
+	   根据种子值及调用方法生成，有一定的规则
+	   **用同一个种子值(seed)来初始化两个Random对象，然后每个对象调用相同的方法，得到的随机数也是相同的
+	   	Random rd1 = new Random(12);
+		Random rd2 = new Random(12);
+		int r1 = rd1.nextInt(100);
+		int r2 = rd2.nextInt(100);
+		//这种情况下 r1 == r2
+	5、java.lang.String类
+		字符串是常量，他的值创建后不能更改。字符串缓冲区支持可变的字符串
+		String s = new String(“abc”);实际上创建了两个String对象，
+		一个是”abc”对象，存储在常量空间中，一个是使用new关键字为对象s申请的空间。
+	   常用方法：对String进行方法操作均不改变原String的内容，而是在常量池中重新创建了String
+	   int length()  获取字符串长度
+	   boolean equals(String s)  区分大小写进行比较
+	   boolean equalIngoreCase() 忽略大小写进行比较
+	   String toLowerCase 将字符串转换为全小写
+	   String toUpperCase 将字符串转换为全大写
+	   String concat(String s)  
+		String s3 = String s1.concat(String s2) s1在前，s2在后进行拼接生成时s3,(s1,s2本身未发生改变)
+	   int indexOf(String s) 搜索第一个出现字符串s的位置（从左向右查找）
+	   int laseIndexOf(String s) 搜索最后一个出现字符串s的位置（从后向前查找）
+	   String subString(int index) 提取从index位置至末尾的字符串
+	   String subString(int beginindex,int endindex) 提取[beginindex，endindex)位置之间的字符串
+	   String trim(String s) 去掉字符串前后的空格  
+		此操作不改变被操作的字符串s
+	   String[] spilt(分隔符) 将一个字符串分割为子字符串，结果作为字符串数组返回
+	6、StringBuffer类  增强型String类 经常改变内容的字符串宜用StringBuffer进行存储
+	    对StringBuffer对象的操作均在原对象基础上进行，即改变对象内容
+	    常用方法：
+	    toString(); 转化为字符串
+	    append(String s)  在StringBuffer对象后追加字符串s
+	    insert(offset,?(多数为字符串)) ，在offset位置插入
+	7、Date类
+	    long getTime()方法  返回自 1970 年 1 月 1 日 00:00:00 GMT 以来此 Date 对象表示的毫秒数
+		常被用作与计算时间差
+		import java.util.Date();
+		improt java.text.SimpleDateFormat;
+		Date date = new Date();    //创建日期对象  
+		SimpleDateFormat formater = new SimpleDateFormat("yyyy-  
+		MM-dd HH:mm:ss");//定制日期格式
+		String now = formater.format(date);
+		System.out.println(now);
+		
+	************************************************
+	/*
+	*日期与字符串的互相转换
+	*/
+	import java.util.*;
+	import java.text.ParseException;
+	import java.text.SimpleDateFormat;
+	public class Test2 {
+		public static void main(String[] args) throws ParseException {
+			Date date1 = new Date();
+			String s1 = "";
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");//确定日期输出格式
+			s1 = sdf1.format(date1);//格式化输出日期
+			System.out.println(s1);
+			String s2 = "2012-2-1";//字符串设定日期
+			Date date = sdf1.parse(s2);//字符串转换为日期，抛出转换异常ParseException
+			System.out.println(date);
+		}
+	}
+
+	8、Calendar类
+	    常用方法：
+	    get(int field)  返回给定日历字段的值
+	        Calendar ca = Calendar.getInstance();//Calendar对象使用静态方法getInstance()获取
+		System.out.println(ca.get(Calendar.YEAR));//输出年份2017
+
+		ca.set(2016, 4, 6);//set方法设置日历对象，set方法有多种重载，根据需要选择
+		System.out.println(ca.get(Calendar.YEAR)); //输出设置后的年份2016
+
+三、输入输出
+        1、File类
+	    常量separator 当前系统目录分隔符
+	    //File类典型方法操作
+		import java.io.File;
+		import java.io.IOException;
+		public class Test2 {
+			public static void main(String[] args) throws IOException {
+				String path = "C:" + File.separator + "temp";
+				String fileName = "text.txt";
+				File dir = new File(path);
+				File file = new File(path + File.separator + fileName);
+				if (!dir.exists()) {
+					dir.mkdirs();
+				}
+				if (file .exists()) {
+					System.out.println("文件存在！");
+					System.out.println("文件名为："+file.getName());
+				} else {
+					System.out.println("文件不存在！");
+					file.createNewFile();
+					System.out.println("文件创建成功！");
+					System.out.println("文件名为："+file.getName());
+				}
+					file.delete();
+					System.out.println("文件删除成功！");
+			}
+		}
+	2、InputStream类（使用于字节流，相当于字符流Reader类）
+	    常用方法：
+	    int read() 返回当前字节char的整型值，可进行强转为char输出
+	    int read(byte[] b)
+	    int read(byte[] b,int off,int len)
+	    void close()
+	    void available()
+	    子类  FileInputStream
+	        常用构造方法：
+		FileInputStream(File file)
+		FileInputStream(String name) 创建一个向具有指定名称的文件中读入数据的输入文件流。
+	   OutputStream类（使用于字节流，相当于字符流Writer类）
+	    常用方法：
+	    void write() 返回当前字节char的整型值，可进行强转为char输出
+	    void write(byte[] b)
+	    void write(byte[] b,int off,int len)
+	    void flush() 刷新此输出流并强制写出所有缓冲的输出字节(清空输出流)
+	    void close()
+	    子类  FileOutputStream
+	        常用构造方法
+		FileOutputStream(File file)
+		FileOutputStream(String name) 创建一个向具有指定名称的文件中写出数据的输出文件流。
+
+	//典型案例说明
+	import java.io.*;
+	public class Test1 {
+	public static void main(String[] args) throws Exception{
+		File file1 = new File("C:/temp/test.txt");
+		//创建字符输入流
+		FileReader fr = new FileReader(file1);
+		//创建字符输入流高级流
+		BufferedReader br = new BufferedReader(fr);
+		StringBuffer sb = new StringBuffer("");//对字符串进行频繁修改，故使用StringBuffer对象实例
+		String s = br.readLine();//读取整行数据
+		while (s != null) {
+			sb.append(s + "\n");//拼接字符串并且换行
+			s = br.readLine();
+		}
+		File file2 = new File("test.txt");
+		if (!file2.exists()) {
+			file2.createNewFile();
+		}
+		//创建文件file2的字符输出流
+		FileWriter fw = new FileWriter(file2);
+		//在file2 中写出数据
+		fw.write(sb.toString());
+		//关闭各个流，先开后关，后开先关的顺序
+		fw.flush();
+		fw.close();
+		br.close();
+		fr.close();
+		}
+	}
+四、序列化和反序列化
+	
+	序列化：将对象的状态存储到特定存储介质的过程
+	ObjeceOutputStream类
+	  步骤：实现Serializable接口-->创建对象输出流-->调用writeObject()方法-->关闭对象输出流
+	 
+	
+	反序列化：从特定存储介质中的数据重新构建对象的过程
+	ObjectIntputStream类
+	  步骤：实现Serializable接口-->创建对象输入流-->调用readObject()方法读取-->关闭对象输入流
+	  
+
+	实现对象可序列化，则该对象所属类须实现 Serializable 接口
+	transient 关键字修饰属性 在序列化过程中被忽略
+
+		/*
+		*创建类，实现Serializable接口
+		*/
+		import java.io.Serializable;
+		public class Person implements Serializable {
+			private String name;
+			private transient String password;
+			private Integer age;
+
+			public Person() {
+			}
+			public Person(String name, String password, Integer age) {
+				super();
+				this.name = name;
+				this.password = password;
+				this.age = age;
+			}
+		}
+
+		/*
+		*序列化
+		*/
+		import java.io.File;
+		import java.io.FileOutputStream;
+		import java.io.ObjectOutputStream;
+
+		public class Test {
+			public static void main(String[] args) throws Exception {
+				Person p = new Person("李四", "666", 17);
+				File zs = new File("zs.bin");
+				if(!zs.exists()) {
+					zs.createNewFile();
+				}
+				// 使用ObjectOutPutStream的高级流
+				FileOutputStream fos = new FileOutputStream(zs);
+				ObjectOutputStream oos = new ObjectOutputStream(fos);
+				oos.writeObject(p);
+				oos.flush();
+				oos.close();
+				fos.flush();
+				fos.close();
+				System.out.println("对象写出完毕！");
+				System.out.println(zs.getAbsolutePath());	
+			}
+		}
+		/*
+		*反序列化
+		*/
+		import java.io.File;
+		import java.io.FileInputStream;
+		import java.io.ObjectInputStream;
+		public class Test2 {
+			public static void main(String[] args) throws Exception {
+				File file = new File("zs.bin");
+				FileInputStream fis = new FileInputStream(file);
+				ObjectInputStream ois = new ObjectInputStream(fis);
+				Person p2 = (Person)ois.readObject();
+				ois.close();
+				fis.close();
+				System.out.println("姓名：" + p2.getName());
+				System.out.println("密码：" + p2.getPassword());
+				System.out.println("年龄：" + p2.getAge());
+			}
+}
+
+五、多线程
+	1、进程  系统运行程序的基本单位，有独立的内存空间和系统资源
+	   线程  进程中执行运算的最小单位，处理机分配给线程，即真正在处理机上运行的是线程。 
+	2、实现线程的方法
+		继承java.lang.Thread类
+		/*
+		*创建MyThread类继承Thread类
+		*/
+		public class MyThread extends Thread{
+			public void run() {
+				for (int i = 0; i <= 100; i++) {
+					if (i % 2 == 0) {
+						System.out.println(Thread.currentThread().getName() + ":" + i);
+					}
+				}
+			}
+			public static void main(String[] args) {
+				
+				//创建MyThread类的对象实例
+				MyThread mt1 = new MyThread();
+				MyThread mt2 = new MyThread();
+				mt1.setName("mt1");
+				mt2.setName("mt2");
+
+				//分别启动两个线程
+				mt1.start();
+				mt2.start();	
+			}
+		}
+		
+		实现java.lang.Runnable接口
+		/*
+		*创建MyRunnable类实现Runnable接口
+		*/
+		public class MyRunnable implements Runnable {
+			
+			//实现Runnable类中的run()方法
+			public void run() {
+				for (int i = 0; i <= 100; i++) {
+					if (i % 2 == 0) {
+						System.out.println(Thread.currentThread().getName() + ":" + i);
+					}
+				}
+			}
+			public static void main(String[] args) {
+				
+				//创建MyRunnable对象实例
+				MyRunnable mr = new MyRunnable();
+				
+				//通过MyRunnable对象实例创建线程
+				Thread t1 = new Thread(mr);
+				Thread t2 = new Thread(mr);
+				t1.setName("t1");
+				t2.setName("t2");
+				
+				//分别启动线程
+				t1.start();
+				t2.start();
+			}
+		}
+	多个线程处于可运行状态
+		分配优先级：反映线程的重要或紧急程度
+			线程的优先级用1~10表示，10的优先级最高，默认值是5（例如main方法）(windows系统下)
+		更改优先级
+			setPriority(int grade)
+	线程调度的方法
+		join()加入  被join()阻塞的线程也被称为守护线程
+		sleep()睡眠
+		yield()暂停
+	线程同步
+		同步方法（synchronized）
+		同步代码块（synchronized）
+六、XML
+	XML:可扩展标记语言，使用简单的标记来描述数据
+	DOM4J解析XML文件 
+	在相关工程中导入DOM4J包，右键DOM4J添加路径-->指定要解析的XML文件-->把XML文件转换成Document实例-->获得节点属性或文本值（操作过程中需要仔细留意需要导入的文件包及需要使用的相关方法及对应返回值）
+		import java.io.File;
+		import java.util.List;
+		import org.dom4j.Document;
+		import org.dom4j.Element;
+		import org.dom4j.io.SAXReader;
+		public class TestDom4j {	
+			public static void main(String[] args) throws Exception {
+				// 使用dom4j前，必须引入jar
+				// 使用dom4j解析xml
+				File file = new File("src/students.xml");
+				// 创建SAXReader解析器
+				SAXReader reader = new SAXReader();
+				// 获取指定XML文件解析的Document
+				Document doc = reader.read(file);
+				// 读取根元素
+				Element root = doc.getRootElement();
+				// 获取所有student元素集合
+				List<Element> stuList = root.elements("student");
+				System.out.println("学生信息如下：");
+				for (Element stu : stuList) {
+					System.out.println("学生编号：" + stu.attributeValue("id"));
+					System.out.println("学生姓名：" + stu.elementText("name"));
+					System.out.println("考试科目：" + stu.elementText("subject"));
+					System.out.println("成绩：" + stu.elementText("score"));
+					System.out.println("");
+				}

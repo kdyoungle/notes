@@ -1,0 +1,77 @@
+EL/JSTL
+	EL  Expression Language
+	javaBean在jsp中的局限
+		在jsp页面中嵌入大量java代码
+		获取java对象属性必须要实例化
+		强制类型转换
+	语法：${ }
+		示例：${[requestScope.]user.name}  中括号内内容可省略，表示从作用域从小到大开始自动寻找，找到为止
+		等价于：<%=(User)request.getAttribute("user").getName() %>
+	作用域：
+		page-->pageScope
+		request-->requestScope
+		session-->sessionScope
+		application-->applicationScope
+		(!!)
+		必须在对应的作用域保存的值才可以被EL表达式使用
+	获取对象属性值
+		点操作符  ${user.name}  (!)相当于调用user类的对应getter方法
+		[]操作符  ${user["name"]}  (!)同上
+		等同于<%= user.getName() %>
+	获取集合List
+		<%
+			ArrayList<String> names = new ArrayList<String>();
+			names.add(0, "tom"); 
+			names.add(1, "jack"); 
+			names.add(2, "Lily");
+			request.setAttribute("nameList", names); 
+		%>
+			第一个人是：${nameList["0"] }<br>
+			第er个人是：${nameList[1] }<br>
+	获取集合Map
+		<%
+			Map<String,String> namesMap = new HashMap<String,String>();
+			namesMap.put("one","tom");
+			namesMap.put("two","Lily");
+			namesMap.put("three","jack");
+			request.setAttribute("names", namesMap);
+		%>
+			${names.two }
+			${names["one"]}
+	Empty操作符
+		变量a不存在
+			${empty a}  返回true
+			${!empty a} 或${not empty a}  返回false
+
+	JSTL标签：jsp标准标签库
+		首先在页面中添加标签
+		<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>  prefix表示前缀，该标签为核心标签库
+		核心标签库
+			通用标签
+				set
+					将value的值存储到范围为scope的变量 当scope缺省时为page
+					<c:set var="index" value="8" scope="request"/>
+					<c:set var="a" value="18"></c:set>
+					<c:set var="b" value="20"></c:set>
+					a=${a }  //输出a=18
+					b=${b }  //b=20
+					sum=${a+b }  //sum=38
+					将value的值存储到对象的属性中
+					<c:set value="" target="" property=""/>
+					<c:set var="tname" value="321" target="${user }" property="name" />
+					${user.name } //输出jack（构造对象时已赋值为jack）
+					${tname }  //输出321
+				out  计算表达式，并将结果输出显示可以用作系统默认值的输出
+					<c:out value="${user.name}" default="匿名"/>  //在name未被赋值时输出“匿名”
+					转义特殊字符
+					${"<a href='www.baidu.com'>百度</a>"}  //输出百度
+					<c:out value="<a href='www.baidu.com'>百度</a>" escapeXml="[a]"/> //[a为除了true以外的任意字符串，可以为空字符串]  输出百度
+					<c:out value="<a href='www.baidu.com'>百度</a>"/>  //输出<a href='www.baidu.com'>百度</a>   所以escapeXml缺省时。默认值为true
+					remove  删除指定范围内的变量
+			条件标签
+				if
+				choose
+			迭代标签
+				forEach
+
+

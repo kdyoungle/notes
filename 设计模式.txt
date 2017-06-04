@@ -1,0 +1,23 @@
+1、代理模式：
+	定义：为其他对象提供一种代理已控制对这个对象的访问。代理对象起到中介的作用，可去掉功能服务或增加额外的服务
+	
+	远程代理：remote proxy
+		为不同地理的对象提供给局域网代表对象
+	保护代理：protect proxy
+		权限控制
+	虚拟代理：virtual proxy
+		根据需要将资源消耗很大的对象进行延迟，真正需要的时候进行创建
+	智能引用代理：smart reference proxy
+		对代理对象提供额外的服务
+
+	实现方式：
+		静态代理：代理和被代理对象之前是确定的。他们都实现相同的接口或者继承相同的抽象类
+		动态代理：
+			java的动态代理类位于java.lang.reflect包下，一般主要涉及到以下两个类:
+				（1）Interface InvocationHandler：（事务处理器）该接口仅定义了一个方法
+					public Object invoke(Object obj,Method method,Object[] args)
+					在实际使用时，第一个参数obj一般是指代理类，method是被代理的方法，args为该方法的参数数组。这个抽象方法在代理类中动态实现。
+				（2）Proxy  动态代理类
+				static Onject newProxyInstance(ClassLoader loader,Class[] interfaces,InvocationHandler h):返回代理类的一个实例，返回后的代理类可以当作被代理类使用（可使用被代理类的在接口中声明过的方法）
+				实现步骤：
+					1、创建一个实现接口InvocationHandler的类，它必须实现invoke方法

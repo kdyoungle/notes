@@ -1,0 +1,251 @@
+1、
+	<meta />用于设置页面内容类型及字符集
+	<meta />用于设置页面内容搜索关键字及内容
+	<h1>~<h6>字号由大到小的标题元素
+	<p></p>段落元素，其前后各有一个空白行
+	<a href=""></a>超链接元素
+	1、用于页面跳转
+	2、用于邮箱链接（功能性链接）
+	3、用于锚链接（可以使用<a name="锚记名">）
+	属性：target:默认 _self自身，_blank新页面，_parent在其父框架页面中打开，使用某一frame的name值，表示在指定name的frame中显示链接内容
+	无序列表;常用于布局菜单，导航条
+	<ul>
+		<li></li>
+	</ul>
+	有序列表：常用于布局带有顺序的列表结构，排行榜，完成某件事情的流程结构
+	<ol>
+		<li></li>
+	</ol>
+	定义列表：常用于带有图文混编的结构
+	<dl>
+		<dt></dt>
+		<dd></dd>
+	</dl>
+
+2、表格：常用于规整数据的展示
+		也用于页面的整体布局和局部布局
+<table>
+
+<tr>
+	<td></td>
+</tr>
+align valign
+border表格边框宽度
+colspan="n"所跨n列
+rowspan="n"跨n行
+cellspacing单元格外部填充
+callpadding单元格内部填充
+
+</table>
+
+3、表单：常用于向用户展现需要填写或选择的电子表单
+<form action="(表单填写完成后，将要发送到的地址)" method="(get/post)">
+post较于get更加的安全高效
+
+<fieldset>
+<legend>标题标签</legend>
+</fieldset>
+<input type="(元素类型)" name="(元素的名称)" value="(元素的值)" / >
+type:
+disabled="disabled"禁用
+readonly="readonly"只读
+
+下拉列表
+<select name="(列表名称)" size="(行数)">
+<option value="选项的值"  (select="selected"被默认选中)></option>
+</select>
+
+多行文本域
+<textarea name="" cols="(列数字符数)" rows="(行数字符数)"></textarea>
+</form>
+
+网页样式：
+	第一类：块级标签（块元素）  div（自身展示完后带有换行）
+	第二类：行级标签（内联元素）  span（自身后面可以带有其他行级标签）
+
+		内联元素与块元素之间可以相互转换
+			内联元素-->块元素
+				display:block;
+			块元素-->内联元素
+				display:inline;
+	CSS样式：级联样式表
+		语法：
+		在html中添加style标签
+		<style type="text/css">
+			选择器{
+			声明1;  属性:取值;
+			声明2;
+			...
+			}
+		</style>
+		选择器类型：
+		标签选择器
+		类选择器
+			.class{font-size:16px; }
+			.类名称{属性：值}
+			使用：<标签名 class="类名称">标签内容</标签名>
+			网页中可给不同的标签使用相同的class
+		id选择器
+			#id{font-size:16px; }
+			#id名称{属性：值}
+			使用：<标签名 id="id名称">标签内容</标签名>
+			网页中标签的id不能重复，唯一存在
+		复合选择器：（认识并了解）
+			并集选择器：
+				多个选择器之间可以是多个或相同类型
+				多个选择器之间必须用英文半角输入法逗号","隔开
+				p,#id,.class{}
+			交集选择器
+				格式为：标签+类（id）选择器
+				选择器之间不能有空格
+				h1.class{}   h1#id{}
+			后代选择器
+				选择器之间可以是多个不同或者形同类型并有层级关系的
+				选择器之间用刻个隔开
+				p a{}
+		css样式的引入方式
+			行内样式
+			内部样式表
+			外部样式表
+				引入方式：
+				1、链接式：（常用）
+				<link type="text/css" rel="stylesheet" href="css文件路径" />一般写在head标签内部
+				2、导入式：
+				<style type="text/css">
+					@import url("css文件路径");
+				</style>
+
+	字体属性：
+		font-style  字体风格 normal italic斜体
+		font-weight  字体粗细 normal bold
+		font-size  字体尺寸
+		font-family  字体系列 "宋体""楷书""仿宋"等
+		font 简写属性，按顺序font:italic bold 16px "楷体";
+	文本属性：
+		color:  文本颜色
+		line-height  文本行高
+		text-align  对齐方式 left center right
+		text-decoration 文本装修 underline none line-through
+		text-indent  实现文本缩进
+	页面元素的背景样式
+		background-color
+		background-image
+		background-position
+		background-repeat  背景的填充方式
+		background  合写方式
+	列表属性
+		list-style
+			list-style:none;去掉默认属性
+	超链接伪类
+		a:link{}  未访问的超链接
+		a:visited{}  已访问的超链接
+		a:hover{}  鼠标悬停在超链接上时
+		a:active{}  被选择的链接
+	鼠标形状控制  cursor属性
+		常用取值：
+		pointer
+		wait
+		move
+盒子模型
+	三维立体结构：
+	第一层：border
+	第二层：padding  content
+	第三层：background-image
+	第四层：background-color
+	第五层：margin
+	盒子模型尺寸=border-width + padding + margin + 内容尺寸（宽度/高度）
+	margin  外边距
+		margin:top right bottom left（顺时针方向赋值）
+		实现网页自动居中布局：
+			实现关键点：
+			 1、div宽度固定
+			 2、margin属性的左右外边距值为auto
+			关键代码：
+			body{ margin:0;}//将默认的内边距初始化为0
+			#content{
+				width:200px;//设置div宽度
+				margin:0 auto;//固定宽度div自动居中
+			}
+
+	padding  填充（内边距）
+		padding:top right bottom left（顺时针方向赋值）
+	border  边框
+		修饰属性：
+			border-color
+			border-width
+			border-style solid实线 dashed虚线 none无边框
+		四个方向：
+			border-top
+			border-right
+			border-bottom
+			border-left
+		简写方式：
+			border:1px solid red
+浮动 left ringht none
+	特点：
+		1、左浮动时，与之相邻的元素会紧挨着其右侧排列
+		2、右浮动时，与之相邻的元素会紧挨着其左侧排列
+		3、同时有左浮动和右浮动元素时，与之相邻的元素，会填满两者之间的间隙
+	浮动法布局：
+		1、运用float属性创建横向多列布局的特性
+		2、width属性结合overflow属性清除浮动？
+		3、增加子层内容，结构不受影响
+	clear属性：清除浮动影响，扩展盒子高度
+		clear:both;  清除两侧浮动
+		left  在左侧不允许出现浮动元素
+		right  在右侧不允许出现浮动元素
+		both  在左右两侧不允许出现浮动元素
+		none  默认值。允许浮动元素出项在两侧
+	overflow属性：用于处理盒子中的内容溢出
+		结合width属性清除盒子浮动的影响，扩展盒子的高度
+		visible  默认值。内容不会被修剪，会呈现在盒子之外
+		hidden  内容会被修剪，并且其余内容是不可见的
+		scroll  内容会被修剪，但是浏览器会显示滚动条以便查看其余内容
+		auto  如果内容被修剪，则浏览器会显示滚动条以便查看其余的内容
+	使用float让盒子浮动，浮动的盒子会脱离标准文档流，将其他不浮动的盒子盖在下面
+	使用clear可以扩展父层盒子的高度，例如用于父层盒子有背景时，根据内容，自动扩展高度
+	使用clear和overflow扩展盒子的高度
+		1、使用overflow属性扩展盒子的高度减少代码量，也减少了空的html标签，使代码更加整洁、清晰，从而提高了代码的可读性和网页性能
+		2、如果页面中有绝对定位元素且元素超出了父级的范围，就必须使用clear属性来清除浮动来扩展盒子的高度
+display属性：用于指定html标签的显示方式
+	可以进行块级元素与行内元素的互相转换
+	block  该元素显示为块级元素
+	inline  默认。元素会被显示为行内元素。
+	none  该元素不会被显示
+	
+定位
+	position属性
+	static  默认。没有定位，以标准流方式显示
+	relative
+		参照位置：自身原位置
+		设置1个或多个子块
+			根据指定位移量进行偏移
+			仍旧处于标准文档流中
+			对父块和兄弟块无影响
+		absolute：left right top bottem
+		参照标准：
+			1、浏览器窗口
+			仅设置一个子块
+				根据指定偏移量偏移
+				脱离了标准文档流
+				不会对相邻块造成影响
+			2、距离绝对定位较近的，已经定位的祖先元素
+			父块相对定位，子块绝对定位
+				根据指定位移量偏移
+				脱离了标准文档流
+				不会对相邻块造成影响
+			3、未设置偏移量方向，保持在原位；设置偏移量方向：浏览器窗口
+			仅子块绝对定位，设一个偏移量
+				设置了偏移量方向，按指定量偏移
+				脱离了标准文档流
+				不会对相邻块造成影响
+Z-index
+	用于调整定位时重叠块的上下位置
+	特点：位于x-y轴的页面相当于z-index=0;
+		  当z-index=-1时，图片位于x-y轴页面之下
+		  当z-index=1时，图片位于x-y轴页面之上，值越大越靠前
+	透明度：
+	opacity:x  x值为0~1，值越小越透明
+	filter:alpha(opacity:x)  x值为0~100，值越小越透明 针对firefox浏览器
+
+网页的整体制作和布局

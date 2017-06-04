@@ -1,0 +1,11 @@
+mysql异常：
+java.sql.SQLException
+	1、No Values For Par...+数字  第数字个参数没有值
+	解决方法：sql语句出错或是数据处理流程混乱，给对应参数赋值
+	2、before start of result set
+	解决方法：rs.next()一下就好
+	3、column “***” not found 某某列没有找到 
+	解决方法：sql语句出错，主要检查sql语句检索结果项是否会有该列
+com.mysql.jdbc.exceptions.MySQLSyntaxErrorException
+	sql语法错误
+	解决方法：检查sql语句，看参数看标点符号

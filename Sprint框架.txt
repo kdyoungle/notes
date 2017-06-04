@@ -1,0 +1,110 @@
+IoC （inversion of control）控制反转  Spring的核心，贯穿是始终
+
+DI（Dependency Injection）依赖注入
+	注入方式：
+		1、设值注入  关键标签：property ，id，value 
+			通过setter访问器实现
+			灵活性好，但是setter方法数量太多
+			时效性差
+			通过无参构造方法实例化
+		2、构造注入  关键标签：constructor-ref，index，type
+			通过构造函数实现
+			灵活性差，仅通过重载限制太多
+			时效性好
+			通过匹配的构造函数实例化，但建议保留无参构造
+		3、静态工厂注入
+		4、实例方法注入
+	p命名空间注入属性
+		特点是：使用属性而不是子元素的形式配置bean的属性
+		使用前先要在Spring配置文件中添加p命名空间的声明
+		语法：
+			对于直接量属性（基本数据类型、字符串） p:属性名="属性值"
+			对于引用的bean属性  p:属性名-ref="bean的id"
+
+有状态类与无状态类
+	通常将带有属性的类称为有状态类（线程非安全），不带有属性的类称为无状态类
+
+
+Spring 配置文件
+	Spring加载配置文件的时候会根据配置文件把所有的bean对象都实例化创建出来。
+
+Bean的作用域 scope
+	singleton（单例模式）唯一实例
+	protoType（原型模式）多个实例
+	request  用于web环境  每次请求都创建一个新的实例，免受上一次请求状态的影响
+	session  用于web环境  在会话范围内共享一个bean实例，实现有状态的操作
+	[gloabl session]仅在Portlet的web应用中使用，在同一个全局会话共享一个实例。对于非Portlet的web应用，作用于session相同
+
+Spring的自动装配类型  autowire bean标签中进行配置，使得配置文件可以非常简洁，但同时也造成组件之间的依赖关系不明确，容易造成一些潜在的错误，需要慎用
+	全局的自动装配策略需要设置<beans>的default-autowire属性
+	no  默认值。
+		Spring默认不进行自动装配，必须显示指定依赖对象
+	byName
+		根据属性名自动装配。Spring自动查找与属性名相同的id，如果找到则自动注入，没有则什么都不做
+	byType
+		根据属性的类型自动装配。Spring自动查找与属性类型相同的bean，如果刚好找到唯一个那个，则自动注入；如果找到多个与属性类型相同的bean则抛出异常；没找到则什么都不做
+	constructor
+		与ByType类似，不过针对构造方法。如果Spring找到一个bean和构造方法的参数类型相匹配，则通过构造注入该依赖对象；找不到则抛出异常。
+
+Spring注解：将Bean的定义信息和Bean实现类结合在一起
+	@Component  相当于在配置文件中配置实体类<bean>
+	@Repository  用于标注dao类
+	@Service  用于标注业务类
+	@Controller  用于标注控制器类
+	@Autowired  指定自动装配，默认是按照类型匹配
+		配合使用 @Qualifier指定bean的名称
+	@Scope  指定Bean的作用域
+
+AOP：面向切面编程，即在不改变原程序的基础上为代码段增加新的功能
+	实现方式：动态代理设计模式
+	相关术语：
+		增强  Advice
+		切入点  Pointcut  一组连接点的总称，用于指定某个advice，应该何时被调用
+		连接点  Joinpoint
+		切面  Aspect
+		代理  Proxy
+		目标对象  Target
+		织入  Weaving  是一个过程，是将切面应用到目标对象，从而将切面功能整合到完整的执行流程中的过程
+
+AOP第一种方式：
+	1、切  一般情况下按照功能需求
+	2、确认主次  主要类实现自定义接口，次要类要实现指定接口
+	3、将主次类都交给Spring托管  配置成<bean>
+	4、利用<aop:pointcut> 和<aop:advisor>标签将主要类次要类合并
+		织入  Weaving
+
+AOP第二种方式：使用注解完成
+	1、切  一般情况下按照功能需求
+	2、确认主次  主要类实现自定义接口，次要类添加特殊注解 @Aspect标记，在次要方法方法上用 @Before， @
+	AfterReturning...标记执行顺序
+	3、将主次类都交给Spring托管 配置组件扫描器<context:component-scan>，并且在需要托管的类上添加 @Component注解
+	4、利用<aop:aspectj-autoproxy>标签将主要类次要类合并
+
+AOP第三种方式：
+	1、切  一般情况下按照功能需求
+	2、确认主次  主要类实现自定义接口，次要类保持原样
+	3、将主次类都交给Spring托管 配置成<bean>
+	4、利用<aop:pointcut> 和<aop:aspect>标签将主要类次要类合并
+		<aop:aspect>
+			<aop:after method="">    无论方法是否正常结束均进入执行，类似于try...catch...中的finally
+			<aop:after-returning method="">  主要方法正常结束
+			<aop:after-throwing method="">  主要类的主要方法抛出异常，非正常结束
+			<aop:around method="">  类似于拦截器，主要方法执行前后都会执行
+			<aop:before method="">  主要类的主要方法执行之前
+		</aop:aspect>
+主要类
+次要类：实现特定接口
+	MethodBeforeAdvice  前置
+	AfterReturningAdvice  后置
+	MethodInterceptor  环绕
+
+
+SSH框架整合
+	1、快速导入Spring、Struts2、Hibernate。其中Spring与Hibernate版本须相互匹配
+
+Spring与struts2整合：
+	struts.objectFactory.spring.autowire用于设置自动装配模式，默认为name,另外还有type、auto、constructor
+	在spring集成struts2时，将Action的对象创建交给Springl容器管理，需要配置scope为prototype，指定该action是多例的，因为每次请求请求都会产生一个action。
+
+
+声明式事务：

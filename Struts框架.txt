@@ -1,0 +1,168 @@
+一、Struts2框架是一个MVC框架，以webwork的设计思想为核心
+	工作原理：
+		（1）客户端（Client）向Action发用一个请求（Request）
+		（2）Container通过web.xml映射请求，并获得控制器（Controller）的名字
+		（3）容器（Container）调用控制器（StrutsPrepareAndExecuteFilter或FilterDispatcher）。在Struts2.1以前调用FilterDispatcher，Struts2.1以后调用StrutsPrepareAndExecuteFilter
+		（4）控制器（Controller）通过ActionMapper获得Action的信息
+		（5）控制器（Controller）调用ActionProxy
+		（6）ActionProxy读取struts.xml文件获取action和interceptor stack的信息。
+		（7）ActionProxy把request请求传递给ActionInvocation
+		（8）ActionInvocation依次调用action和interceptor
+		（9）根据action的配置信息，产生result
+		（10）Result信息返回给ActionInvocation
+		（11）产生一个HttpServletResponse响应
+		（12）产生的响应行为发送给客服端。
+二、Action的实现方式：
+	实现Action接口
+	继承Action接口的实现类ActionSupport
+		ActionSupport类提供了对数据验证的支持 validate()方法 使用该方法时需要页面配合使用Struts标签
+三、Struts2提供了解耦和耦合两种方式实现对ServletAPI的访问
+	session或者application的不同获取方式
+	解耦
+		Map(String ,Object) session = ActionContext.getContext().getSession();
+		session.put(String,Object);
+	耦合
+		HttpSession session = ServletActionContext.getRequest().getSession();
+		session.setAttribute(String,Object);
+四、Struts2配置
+	核心控制器：
+		Struts 2.0版本的核心控制器
+			org.apache.struts2.dispatcher.FilterDispatcher
+		2.1.3版本以后
+			org.apache.struts2.dispatcher.ng.filter.StrutsPrepareAndExecuteFilter
+	struts.xml  核心配置文件，主要负责管理action。通常位于web-inf/classes目录下
+		constant元素
+			配置常量，可以改变struts2框架的一些行为
+			name表示属性名称，value表示属性值
+			//配置字符集
+			<constant name="struts.i18n.encoding" value="UTF-8"/>
+			//禁用动态方法调用
+			<constant name="struts.enable.DynamicMethodInvocation" value="false"/>
+			//开启开发模式
+			<constant name="struts.devMode" value="true"/>
+		package元素
+			作用：简化维护工作，提高重用性
+			可以继承已定义的包，并可以添加自己包的配置
+			name 属性必须且唯一，用于指定包的名称
+			extends 指定要扩展的包
+			namespace  定义该包中的action的命名空间，可选
+			<package name="default" namespace="/" extends="struts-default">....</package>
+			
+			action 元素  web应用的业务控制器
+				！！！action标签的name属性出现重名时,并不会报错,也不会编译错误,会执行最后一个同名标签
+				<action name="" class="" method=""><action/>
+				动态方法  
+				动态结果
+				全局结果
+				默认Action
+				result  元素
+
+					Result  实现对结果的调用
+						result元素的值指定对应的实际资源的位置
+							动态结果配置时，如果结果值为空则跳转至web.xml中的默认页面，没有修改的情况下为index.jsp
+						name属性表示result逻辑名，如果重名，配置文件会提示编译错误，可以通过配置动态返回结果解决
+						type  结果类型
+						 dispatcher  (默认) 后台使用RequestDispatcher转发请求
+						 redirect  重定向至指定的url
+						 redirectAction  重定向至Action
+						 chain
+
+					
+
+	配置文件加载顺序
+		struts-default.xml->struts-plugin.xml ->struts.xml
+	struts2 获取参数的方式：
+		属性方式：需要生成getter和setter方法
+		javaBean方式：需要生成getter和setter方法
+		ModelDriven方式：（不常用），不需要生成getter和setter方法
+	struts创建action的设计模式是：代理模式
+		代理模式才能实现拦截和执行权限的转移
+	常量可以在struts.xml或struts.properties中配置，两种配置方式如下：  
+		 1）在struts.xml文件中配置常量    <constant name="struts.action.extension" value="do"/>   
+		 2）在struts.properties中配置常量（struts.properties文件放置在src下）：    struts.action.extension=do
+		不可在action中编写常量，
+	Action接口中定义的字符串常量
+		SUCCESS（处理成功）,
+		ERROR（action执行失败，程序业务错误）,
+		INPUT（输入有误需要重新输入，验证不通过的视图）,，数据类型转换异常或者数据验证不合法都自动转到input对应的result
+		NONE（表示处理正常结束但是不返回）,
+		LOGIN（需要登录，返回登陆页面）
+	
+	struts2.0的工作原理
+		基本简要流程如下：
+			1、客户端浏览器发出HTTP请求。
+			2、根据web.xml配置，该请求被struts2核心过滤器接收。
+			3、根据struts.xml配置，找到需要调用的Action类和方法， 并通过IoC方式，将值注入给Aciton。
+			4、进入Action前首先执行struts2的默认拦截器
+			5、拦截器通过执行Action
+			5、Action执行完毕，根据struts.xml中的配置找到对应的返回结果result，并跳转到相应页面。
+			6、返回HTTP响应到客户端浏览器。
+什么样的代码是线程安全的？
+	1)常量始终是线程安全的，因为只存在读操作。
+	2)对构造器的访问(new 操作)是线程安全的，因为每次都新建一个实例，不会访问共享的资源。
+	3)最重要的是:局部变量是	线程安全的。因为每执行一个方法，都会在独立的空间创建局部变量，它不是共享的资源。局部变量包括方法的参数变量。
+	struts user guide里有：
+	Only Use Local Variables - The most important principle that aids in thread-safe coding is to use only local variables, not instance variables , in your Action class.
+	译:只使用用局部变量。--编写线程安全的代码最重要的原则就是，在Action类中只使用局部变量，不使用实例变量。	
+
+struts全局配置
+	用global-results元素嵌套result元素进行配置
+
+struts2标签
+	<s:iterator> 迭代一个集合或数组，
+		value属性  指定要迭代的集合属性  类型可以是collection，map，iterator，或者数组。 迭代过程中，会把迭代的每个对象暂时压入值栈的栈顶，这样在标签内部可以之间访问元素对象的属性和方法，及可以不使用value和property标签输出数据。iterator标签体执行完毕后，位于栈顶的对象即被删除，迭代下一个元素时，重复该过程。
+		status属性  （可选）该属性在迭代时会产生一个IteratorStatus对象，该对象可以判断当前元素的位置，包含了以下属性方法：
+			int getCount();迭代元素个数
+			int getIndex();迭代元素当前索引
+			boolean getFirst();是否为第一个
+			booelan getEven();是否为偶数（索引）
+			boolean getOdd();是否为奇数（索引）
+			boolean getLast();是否为最后一个
+	<s:text>  实现了国际化信息的访问，只需要在它的name属性上填入需要的key即可
+
+	value属性：分为两种情况
+		1、value属性是OGNL表达式
+			如<s:property>标签的value属性
+		2、value属性是字符串：
+			如<s:textfield>标签的value属性，<s:url> 标签的value属性
+			此类标签会将value属性的值传输到页面当中去
+		可以使用'%{}'将字符串转化为OGNL表达式
+
+struts 数据校验流程
+	1、对参数执行类型转换
+	2、进行内建验证器进行验证
+	3、执行validateXxx()方法
+	4、执行validate()方法
+	5、包含错误信息返回input视图，不包含错误调用Action的处理方法
+
+struts  OGNL
+	作用：
+		1、数据流入
+		2、数据流出
+		3、ValueStack值栈
+
+	ValueStack 是默认的OGNL根对象
+	
+	特点：
+	1、GUI元素到模型对象的绑定语言
+	2、数据库表到swing的TableModel的数据源语言
+	3、web组件和后台Model对象的绑定语言
+	4、作为JSTL或者jakarata Commons BeanUtils等表达式语言的一种更具表达力的替代语言
+	
+	相对于其他表达式语言的优势：
+		1、支持对象方法的调用
+		2、支持类静态方法的调用和值访问，格式： @[类全名(包括包路径)]@[方法名|值名]
+			例如： @java.lang.String@format();
+		3、支持赋值操作和表达式串联
+			例如：price = 100, discount=0.8,calculatePrice(),整个表达式会返回80
+		4、访问OGNL上下文（OGNLcontext）和ActionContext
+		5、操作集合对象
+
+struts值栈
+	作用：
+		1、提供上下文信息的访问机制
+		2、提供执行环境中元素的访问机制
+
+使用JSON插件实现json类型的Result的步骤是
+	1，将struts2-json-plugin-xxx.jar加入到Struts2工程下。2，在struts.xml中编写<package>标签，并指定该package继承json-default。3，在<package>标签下定义具体的<action>标签，将其子标签<result>的type属性指定为“json”.。如果在同一个结果中excludeProperties参数与includeProperties参数存在，includeProperties参数将失效。root参数是指定要序列化的根对象。
+

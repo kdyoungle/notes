@@ -1,0 +1,27 @@
+servlet  继承自Httpservlet的类
+	生命周期
+		1、加载和实例化
+		2、初始化，调用init方法
+		3、service方法，根据请求方式调用doGet方法和doPost方法
+		4、销毁，调用destory方法
+filter 过滤器
+	实现了Filter接口的类  javax.servlet包下
+	生命周期
+		1、加载和实例化，服务器启动时即被实例化并调用了init方法
+		2、初始化，调用init方法
+		3、doFilter  最后必须执行代码FilterChain.doFilter()
+		将请求转发到下一个过滤器或需要访问的web资源
+		4、销毁阶段 destory方法
+
+listener
+1、需要监听的类实现接口HttpSessionBindingLisetener  --javax.servlet.http
+	重写继承接口中的valueBound()、valueUnbound()的方法
+		valueBound()  当监听对象放入session的时候，自动调用执行
+		valueUnbound()  当session失效的时候 自动调用
+
+
+2、HttpSessionListener接口
+	sessionCreated(HttpSessionEvent event)
+	sessionDestoryde(HttpSessionEvent event)
+		执行session.invalidate()方法,session 失效
+		或者session超时

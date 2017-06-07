@@ -291,4 +291,66 @@ jQuery课外补充方法：
 	slideToggle()  对被选择元素进行滑动显示，滑动隐藏的切换
 
 
+Ajax:Asynchronous javascript and xml 不是新技术，而是之前技术的整合
+	异步：发送请求，不等结果，有回掉函数处理
+
+	关键技术：javascript,向服务器发送请求，获得结果，更新页面
+				css,
+				XML,用来封装数据
+				XMLHttpRequest
+					1、对象的创建方式：
+						非IE浏览器
+							var xhr = new XMLHttpReuqest();
+						高版本IE
+							var xhr = new ActiveObject("Msxml2.XMLHTTP");
+						低版本IE
+							var xhr = new ActiveObject("Microsoft.XMLHTTP");
+					2、方法：
+						open("post/get,url,true/false");用来向服务器进行连接
+							三个参数：
+							参数1：提交方式
+							参数2：请求的url
+							参数3：表示同步或者异步请求，true为异步，false为同步
+						send(data);发送请求
+							参数：提交的内容
+								post方式：data就是要提交的参数
+								get方式：data == null，提交参数绑定在请求url中
+					3、属性
+						onreadystatechange:设置状态改变时的回调函数
+							onreadystatechange = function(){...}
+						readystate:服务器状态响应：	
+							状态码：
+								0：未初始化
+								1、正在加载
+								2、加载完成
+								3、请求进行中
+								4、请求完成
+						responseText：服务器返回的数据，text格式
+						responseXML：服务器返回的数据，XML格式
+	
+	
+	如何解决AJAX的跨域问题：
+		1、在请求页面上使用Access-Control-Allow-Origin表头。
+			使用如下表头可以接收全部网站请求：
+				header('Access-Control-Allow-Origin:*');
+		2、使用jsonp跨域请求
+
+	Ajax的优点与缺点
+		优点：
+			1、无刷新更新数据
+			2、异步与服务器通信
+			3、前端与后端负载均衡
+			4、基于标准被广泛支持
+			5、界面与应用分离
+		缺点：
+			1、干掉了back和history功能，造成了对浏览器机制的破坏
+			2、安全性较弱
+			3、对搜索引擎支持较弱
+			4、破坏了程序的异常处理机制
+			5、违背了url和资源定位的基本初衷
+			6、不能很好的支持移动设备
+			7、客户端过为粗壮，客户端代码量过大，增加了开发上的成本
+	
+
+
 		

@@ -73,6 +73,8 @@
 			--->Integer(int)为例
 			    常用方法：
 			    Integer parseInt(String s)  将字符串s转为Integer，抛出NumberFormatException
+				构造方法：Integer i = new Integer("1");
+				或者 Integer i = Integer.valueOf("1");二者最终均调用的是Inter.parseInt("1")这个方法
 			    toString()  转化为字符串 或者直接拼接双引号
 			--->Long
 			--->Float

@@ -14,3 +14,4 @@ Comparable与Comparator的区别？两种比较器
 
 国际化程序：  同一个程序可以在不同的语言环境下使用
 	java.util.Locale类：主要用于进行本地区域定位
+都

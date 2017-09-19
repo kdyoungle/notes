@@ -1,14 +1,14 @@
-Hibernate中的对象有三种状态，
-1.TransientObject 瞬时(临时)对象   可以通过new、从Persistent到Transient的Delete、从Detached到Transient的Delete
-2.PersistentObject 持久化对象  从数据库查出来的get、load、find、Iterator方法，从Transient 到Persistent的save、saveorupdate，还有从Detached 到Persistent 的update、saveorupdate
-3.DetachedObject 离线对象  只能出现在从Persistent 到Detached 的evict、close、clear
+## Hibernate中的对象有三种状态:
+* 1.TransientObject 瞬时(临时)对象   可以通过new、从Persistent到Transient的Delete、从Detached到Transient的Delete
+* 2.PersistentObject 持久化对象  从数据库查出来的get、load、find、Iterator方法，从Transient 到Persistent的save、saveorupdate，还有从Detached 到Persistent 的update、saveorupdate
+* 3.DetachedObject 离线对象  只能出现在从Persistent 到Detached 的evict、close、clear
 
-对象加载方法：
-	get():不论lazy如何取值，总是会试图加载初始化好的实例
-	load():如果lazy取值为false，会加载到初始化好 的实例
+## 对象加载方法：
+	* `get()`:不论lazy如何取值，总是会试图加载初始化好的实例
+	* `load()`:如果lazy取值为false，会加载到初始化好 的实例
 
-Hibernate修改对象的三个方法：
-1、update：只对处于持久状态的对象进行操作
+## Hibernate修改对象的三个方法：
+* 1、`update`：只对处于持久状态的对象进行操作
 	无返回值：void
 	仅仅只是要求执行update语句的方法
 	使用环境：
@@ -18,18 +18,18 @@ Hibernate修改对象的三个方法：
 		4.该对象被返回到业务逻辑层
 		5.程序调用第二个session的update()方法持久这些改动
 
-2、saveOrUpdate：
+* 2、`saveOrUpdate`：
 	无返回值：void
 	会根据执行时，对象的状态决定是执行insert语句还是执行update语句
-	游离状态的数据执行update()
-	临时状态的数据执行save()
-3、merge：根据当前对象主键是否存在执行新增或者更新操作，主键存在但是没有字段进行更改则不执行任何操作
+	* 游离状态的数据执行`update()`
+	* 临时状态的数据执行`save()`
+* 3、merge：根据当前对象主键是否存在执行新增或者更新操作，主键存在但是没有字段进行更改则不执行任何操作
 	有返回值
 	执行对象的update语句，在执行前后，不会对操作对象的状态进行改变，并返回一个执行对象的持久状态的对象。
 
-set 属性
-<!-- cascade级联控制操作属性 none（默认）、save-update、delete、all，一般只使用save-update -->
-<!-- inverse为反向控制属性：false（默认）表示由一方控制，true表示由多方自己控制关联关系 -->
+## `set` 属性
+ * `cascade`级联控制操作属性 `none`（默认）、`save-update`、`delete`、`all`，一般只使用`save-update`
+* `inverse`为反向控制属性：`false`（默认）表示由一方控制，`true`表示由多方自己控制关联关系
 <!-- order-by属性用于指定关联集合中多方对象的排序要求 -->
 <!-- 即查询sql语句中的order-by子句，order-by属性要使用表中的列名，而不是类的属性名 -->
 <!-- lazy属性，用于延迟加载

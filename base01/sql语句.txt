@@ -1,0 +1,35 @@
+INSERT INTO `学生表`
+VALUE("姓名","年龄","邮箱");
+
+update `学生表` set `邮箱`= null
+WHERE `姓名`="张三";
+
+delete from `学生表`
+where `年龄`=18;
+
+select `姓名` ,`年龄` from `学生表`
+where `邮箱`=null or `邮箱`=""
+order by `年龄` DESC;
+
+select sname sphone saddress from student
+where saddress like "%山东%"
+
+select count(*) from students
+
+select sum(hours) from students
+where grade=s1;
+
+select sum(score) from students
+where studentId = s1101004 and season = 1;
+
+select avg(studentresult) from students
+where studentId = s1101004 and season = 1;
+
+select max(studentresult) 最高分,min(studentresult) 最低分,avg(studentresult) 平均分 from student
+where examdate="2013-3-22" and subjectid=8;
+
+select avg(score) from students
+where date="2013-3-22" and subject="C#语言和数据库技术" and score >=60;
+
+select avg(score) from students
+where subject="C#语言和数据库技术";

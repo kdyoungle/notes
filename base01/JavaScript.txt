@@ -1,0 +1,356 @@
+一、JavaScript：
+	向html页面中添加交互行为
+	脚本语言，语法与java类似
+	解释性语言，边执行边解释
+
+ECMAscript  核心
+	1、导入方式：
+	（1）使用<script>标签
+		<script type="text/script">
+			<!--
+			JavaScript语句
+			-->
+		</script>
+		</head>尽量书写早<head>标签内部
+	（2）外部js文件
+		<script src="js文件路径" type="javascript"></script>
+	（3）直接写在html标签中
+		<input name="btn" type="button" value="弹出消息框"  onclick="javascript:alert('欢迎你');"/>
+	2、核心语法-string对象
+		属性
+		字符串对象.length
+		方法
+		字符串对象.方法名()
+		charAt(index)  返回在指定位置的字符
+		indexOf(str,index)  查找某个字符串在字符串中首次出现的位置
+		substring(index1,index2)
+		spilt(str)  将字符串分割为字符串数组
+	3、typeOf运算符：检测变量的返回值
+		返回值如下：
+		underfined：变量被声明后，但是没有被赋值
+		string：用单引号或者双引号声明的字符串
+		boolean
+		number：整数或者浮点数
+		object：javascript中的对象，数组或者null
+	4、常用输入输出
+		document.write("(在网页上输出的内容)");
+		alert("(输出内容)");
+		prompt("");
+	5、常用系统函数
+		parseInt(字符串) 
+		parseFloat(字符串)
+		isNaN(字符串)  用于检查其参数是否为数字
+
+BOM（浏览器对象模型）：可实现的功能
+	弹出新的浏览器窗口
+	移动关闭浏览器窗口以及调整窗口的大小
+	页面的前进和后退
+  window：BOM的核心
+	常用属性：window.属性名="属性值";
+		history
+		location
+	常用方法：
+		prompt()
+		alert()
+		confirm()  显示一个带有提示信息，确定和取消按钮的对话框
+		close()  关闭浏览器窗口
+		open()  打开一个新的浏览器窗口，并加载给定URL所指定的文档
+		setTimeout()  在指定的毫秒数后调用函数或计算表达式
+		setInterval()  按照指定周期（以毫秒计）来调用函数或表达式
+	常用事件：
+		onload  一个页面或者图像完成加载
+		onmouseover  鼠标移到某个元素之上
+		onclick  当用户单击某个对象时调用的事件句柄
+		onkeydown  某个键盘按键被按下
+		onchange  域的内容被改变
+	history对象：（重点）
+		常用方法：
+			back()  加载history对象列表中的前一个URL
+			forward()  加载history对象列表中的下一个URL
+			go()  加载history对象列表中的某个具体URL
+				history.back()--等价-->history.go(-1)
+				history.forward()--等价-->history.go(1)
+	location对象：
+		常用属性：
+			host
+			hostname
+			href
+		常用方法：
+			reload()
+			repalce()
+
+
+DOM（文档对象模型）：
+
+jQuery
+	jQuery基础：
+		对javascript对象和函数的封装
+		设计思想：write less ，do more
+		体积小
+		强大的选择器
+		出色的DOM封装
+		可靠的事件处理机制
+		出色的浏览器兼容性
+		使用隐式迭代简化编程
+		丰富的插件支持
+	$(document).ready()
+		1、网页中所有DOM文档结构绘制完成后立即执行，可能与DOM元素关联的内容（图片、视频、flash等）并没有加载完
+		2、同一页面能同时编写多个
+		3、简化写法：$(function){//执行代码}
+	window.load
+		1、必须等网页中的所有元素加载完毕后才能执行
+		2、同一页面不能同时编写多个
+		3、没有简化写法
+	工厂函数：
+		语法：$(selector).action()
+			工厂函数$()  将DOM对象转换为jQuery对象
+			选择器selector  获取需要操作的jQuery对象
+			方法action()  jquery提供的方法，其中包括绑定事件的处理方法
+			常用方法：
+			css("属性","属性值")或css({"属性1":"属性值1","属性2":"属性值2"})  为元素设置css样式的值
+			addClass()  为元素添加类样式
+			next()  获取元素其后紧邻的同辈元素
+	DOM对象转换jQuery对象
+		var txtName =document.getElementById("txtName"); //DOM对象
+		var $txtName =$(txtName);   //jQuery对象
+		jQuery对象命名一般约定以$开头
+	jQuery对象转换DOM对象
+		jQuery对象是一个类似数组的对象，可以通过[index]的方法得到相应的DOM对象
+			var $txtName =$ ("#txtName");      //jQuery对象
+			var txtName =$txtName[0];            //DOM对象
+		通过get(index)的方法得到相应的DOM对象
+			var $txtName =$("#txtName");        //jQuery对象
+			var txtName =$txtName.get(0);       //DOM对象
+
+	
+	jQuery选择器：
+		类CSS选择器：
+			基本选择器：
+				标签选择器
+				类选择器
+				id选择器
+				并集选择器  seletor1,seletor2,...
+				交集选择器  element.class或者element#id
+				全局选择器  *  匹配所有元素
+			层次选择器：
+				后代选择器  ancestor descendant  选取ancestor元素后的所有descendant（后代）元				素
+				子选择器  parent>child  选取parent元素下的child（子）元素
+				相邻元素选择器  prev+next  选取紧邻prev元素之后的next元素  $("h2+dl")选取紧					邻<h2>元素之后的同辈元素<dl>
+				同辈选择器  prev~siblings  选取prev元素之后的所有sibling元素  $("h2~dl")选取				<h2>元素之后的所有的同辈元素<dl>
+			属性选择器：多数应用于表单部分
+				[attribute]  选取包含给定属性的元素
+				[attribute=value]  选取等于给定属性是某个特定值的元素
+				[attribute!=value]  上取反（少用，有缺陷）
+				[attribute^=value]  选取给定属性是以某个特定值开始的元素
+				[attrbute$=value]  选取给定属性是以某个特定值结束的元素
+				[attribute*=value]  选取给定属性是以包含某些值得元素
+				[selector1][selector2]...  选取满足多个条件的复合属性元素
+		过滤选择器：
+			基本过滤选择器：
+				:first  选取第一个元素
+				:last  选取最后一个元素
+				:even  选取索引为偶数的所有元素（索引从0开始）
+				:odd  选取索引为奇数的所有元素（索引从0开始）
+				:eq(index)  选取索引等于index的元素（索引从0开始）
+				:gt(index)  选取索引大于index的元素（索引从0开始）
+				:lt(index)  选取索引小于index的元素（索引从0开始）
+					筛选范围内元素
+					$("li:lt(index1):gt(index2)")   index1>index2
+					选取li标签的下标(index2,index1)的所有<li>元素
+					一首一尾两个元素均不包含在内，选取元素个数（index1-index2-1）个
+				
+			可见性过滤选择器:
+				:visible  选取所有可见的元素
+				:hidden  选取所有隐藏的元素
+					$("p:visible").hide()  获取可见的<p>元素使其隐藏
+					$("p:hidden").show()  获取隐藏的<>元素使其可见
+	选择器中的特殊符号需要转义"\\"
+	选择器的书写规范很严格，多一个空格或者少一个空格都会影响选择效果
+		var $t_a = $(".test :hidden")//带空格的jQuery选择器
+			选取class为"test"的元素内部的隐藏元素
+		var $t_a = $(".test:hidden")*//不带空格的jQuery选择器
+			选取隐藏的class为"test"的元素
+	jQuery动画及事件
+		常见事件：
+			基本事件：
+				window事件
+				鼠标事件
+					click()
+					mouseover()  鼠标移过
+					mouseout()  鼠标移出
+				键盘事件
+					keydown()  按下键盘时
+						 $(document).keydown(function (event) {//当键盘被按下时  事件event中封装了事件参数
+						    if (event.keyCode == "13") {//如果按下的是回车键
+								alert("确认要提交么？");
+							}
+						});
+
+					keyup()  释放按键时
+					keypress()  产生可打印的字符时
+				表单事件
+					focus()  获得焦点
+					blur()  失去焦点
+			复合时间：是多个事件的组合
+				鼠标光标悬停
+					hover()
+				鼠标连续点击
+					toggle()
+			事件方法的绑定：
+				bind():绑定
+				语法：bind([type],[fn]);  或者bind(type1:fn1,type2:fn2); 
+					$("input[name=event_1]").bind({
+						mouseover: function () {
+						$("ul").css("display", "none");
+						},
+						mouseout: function () {
+						$("ul").css("display", "block");
+						}
+					});
+
+				unbind():解绑  语法与bind相似，不带参数时，移除所绑定的所有事件
+		动画
+			show()
+			hide()
+			fadeIn() 淡入
+			fadeOut()  淡出
+			slideDown()  
+			slideUp()  常用属性：slow==600ms  fast normal  直接设置为时间是不需要引号
+	jQuery的DOM操作
+		attr()
+		live()  动态绑定方法函数
+		$("input").live("click",function(){});
+	表单验证：
+		进行表单验证，重点在于表单，操作的各个元素必须是表单内的子元素
+		常用的表单验证：
+			日期格式
+			表单元素是否为空
+			用户名和密码
+			E-mail地址
+			身份证号码
+		验证步骤：
+			1、获得表单元素值
+			2、使用javascript或者jQuery的一些方法进行判断
+			3、表单提交时，触发事件，对获取的数据进行验证
+		正则表达式：
+			代码简洁，验证严谨
+			定义方式：
+				1、普通方式
+					var reg = /表达式/附加参数
+				2、构造函数
+					var reg = new RegExp("表达式","附加参数")
+			模式：
+				1、简单模式  只能表示具体的匹配
+					var reg = /china/  匹配字符串china
+				2、复合模式  可以使用通配符表达更为抽象的规则模式
+					var reg = /^ \w+$/
+			RegExp对象的方法
+				exec()  检索字符串中是正则表达式的匹配，返回找到的值，并确定其位置
+				test("被匹配的字符串")  检索字符串中指定的值，返回true或者false（常用方法）
+			RegExp对象的属性  课上没有介绍
+				global  RegExp对象是否具有标志g
+				ignoreCase  RegExp对象是否具有标志i
+				multiline  RegExp对象是否具有标志m
+			String对象的方法
+				match()  找到1个或多个正则表达式的匹配
+				search()  检索与正则表达式匹配的值
+				replace()  替换与正则表达式匹配的值
+				split()  把字符串分割成字符串数组
+			正则表达式符号
+				/^...$/  ...表示需要匹配的表达式
+				\s  任何空白字符
+				\d  匹配一个数字字符，等价于[0-9]
+				\w  匹配一个下划线、数字或字母字符，等价于[A-Za-z0-9_]
+				.   除了换行符以外的任意字符
+				{n}  匹配前一项n次
+				{n,}  匹配前一项n次或者多次
+				{n,m}  匹配前一项至少n次，但是不能超过m次
+				{*}  匹配前一项0次或者多次，等价于{0,}
+				{+}  匹配前一项1次或者多次，等价于{1,}
+				{?}  匹配前一项0次或者多次，等价于{0,1}
+		<a href="javascript:void(0);"></a>//清除超链接效果
+
+jQuery课外补充方法：
+	find()
+	toggle()用于绑定两个或多个事件处理器函数，以响应被选元素的轮流的 click 事件。未绑定函数时触发鼠标连续点击，如果元素是可见的，切换为隐藏的；如果元素是隐藏的，切换为可见的。
+
+	filter() 用于筛选
+	each()  用于遍历被筛选出的对象集合
+	html()  取得第一个匹配元素的html内容。这个函数不能用于XML文档。但可以用于XHTML文档。在一个 HTML 文档中, 我们可以使用 .html() 方法来获取任意一个元素的内容。 如果选择器匹配多于一个的元素，那么只有第一个匹配元素的 HTML 内容会被获取。
+
+	text()  取得所有匹配元素的内容。结果是由所有匹配元素包含的文本内容组合起来的文本。这个方法对HTML和XML文档都有效。
+	animate()  创建自定义动画，具体用法参考帮助文档
+		animate(params,[speed],[easing],[fn])
+			params:一组包含作为动画属性和终值的样式属性和及其值的集合
+			speed:三种预定速度之一的字符串("slow","normal", or "fast")或表示动画时长的毫秒数值(如：1000)
+			easing:要使用的擦除效果的名称(需要插件支持).默认jQuery提供"linear" 和 "swing".
+			fn:在动画完成时执行的函数，每个元素执行一次。
+
+	scrollTop()  获取选定元素相对滚动条顶部的位移
+	stop()
+	slideToggle()  对被选择元素进行滑动显示，滑动隐藏的切换
+
+
+Ajax:Asynchronous javascript and xml 不是新技术，而是之前技术的整合
+	异步：发送请求，不等结果，有回掉函数处理
+
+	关键技术：javascript,向服务器发送请求，获得结果，更新页面
+				css,
+				XML,用来封装数据
+				XMLHttpRequest
+					1、对象的创建方式：
+						非IE浏览器
+							var xhr = new XMLHttpReuqest();
+						高版本IE
+							var xhr = new ActiveObject("Msxml2.XMLHTTP");
+						低版本IE
+							var xhr = new ActiveObject("Microsoft.XMLHTTP");
+					2、方法：
+						open("post/get,url,true/false");用来向服务器进行连接
+							三个参数：
+							参数1：提交方式
+							参数2：请求的url
+							参数3：表示同步或者异步请求，true为异步，false为同步
+						send(data);发送请求
+							参数：提交的内容
+								post方式：data就是要提交的参数
+								get方式：data == null，提交参数绑定在请求url中
+					3、属性
+						onreadystatechange:设置状态改变时的回调函数
+							onreadystatechange = function(){...}
+						readystate:服务器状态响应：	
+							状态码：
+								0：未初始化
+								1、正在加载
+								2、加载完成
+								3、请求进行中
+								4、请求完成
+						responseText：服务器返回的数据，text格式
+						responseXML：服务器返回的数据，XML格式
+	
+	
+	如何解决AJAX的跨域问题：
+		1、在请求页面上使用Access-Control-Allow-Origin表头。
+			使用如下表头可以接收全部网站请求：
+				header('Access-Control-Allow-Origin:*');
+		2、使用jsonp跨域请求
+
+	Ajax的优点与缺点
+		优点：
+			1、无刷新更新数据
+			2、异步与服务器通信
+			3、前端与后端负载均衡
+			4、基于标准被广泛支持
+			5、界面与应用分离
+		缺点：
+			1、干掉了back和history功能，造成了对浏览器机制的破坏
+			2、安全性较弱
+			3、对搜索引擎支持较弱
+			4、破坏了程序的异常处理机制
+			5、违背了url和资源定位的基本初衷
+			6、不能很好的支持移动设备
+			7、客户端过为粗壮，客户端代码量过大，增加了开发上的成本
+	
+
+
+		
